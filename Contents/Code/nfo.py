@@ -23,13 +23,13 @@ class NfoUtil:
         return text
 
     @staticmethod
-    def get_set(element, tag):
+    def get_list(element, tag):
         tag_elements = element.findall(tag)
-        tag_set = set()
+        tag_set = []
         for tag_element in tag_elements:
             tag_text = tag_element.text
             if tag_text:
-                tag_set.add(tag_text)
+                tag_set.append(tag_text)
         return tag_set
 
     @staticmethod
@@ -64,21 +64,21 @@ class NfoUtil:
 
     @staticmethod
     def set_metadata_set_field(source, metadata, field):
-        source_set = getattr(source, field)
-        metadata_set = getattr(metadata, field)
-        if source_set is not None and metadata_set is not None:
-            metadata_set.clear()
-            for value in source_set:
-                metadata_set.add(value)
+        source_list = getattr(source, field)
+        metadata_list = getattr(metadata, field)
+        if source_list is not None and metadata_list is not None:
+            metadata_list.clear()
+            for value in source_list:
+                metadata_list.add(value)
 
     @staticmethod
     def set_metadata_set_name_field(source, metadata, field):
-        source_set = getattr(source, field)
-        metadata_set = getattr(metadata, field)
-        if source_set is not None and metadata_set is not None:
-            metadata_set.clear()
-            for value in source_set:
-                metadata_set.new().name = value
+        source_list = getattr(source, field)
+        metadata_list = getattr(metadata, field)
+        if source_list is not None and metadata_list is not None:
+            metadata_list.clear()
+            for value in source_list:
+                metadata_list.new().name = value
 
 
 class Nfo:
@@ -90,8 +90,8 @@ class Nfo:
     def get_text_from_root(self, tag):
         return NfoUtil.get_text(self.root_element, tag)
 
-    def get_set_from_root(self, tag):
-        return NfoUtil.get_set(self.root_element, tag)
+    def get_list_from_root(self, tag):
+        return NfoUtil.get_list(self.root_element, tag)
 
     def get_date_from_root(self, tag):
         return NfoUtil.get_date(self.root_element, tag)
@@ -177,10 +177,10 @@ class TvNfo(Nfo):
         return self.get_rating_from_root("rating")
 
     def extract_genres(self):
-        return self.get_set_from_root("genre")
+        return self.get_list_from_root("genre")
 
     def extract_collections(self):
-        return self.get_set_from_root("set")
+        return self.get_list_from_root("set")
 
     def extract_actors(self):
         return NfoUtil.get_actors(self.root_element, "actor")
@@ -232,16 +232,16 @@ class EpisodeNfo(Nfo):
         return self.get_rating_from_root("rating")
 
     def extract_producers(self):
-        return self.get_set_from_root("producer")
+        return self.get_list_from_root("producer")
 
     def extract_writers(self):
-        return self.get_set_from_root("writer")
+        return self.get_list_from_root("writer")
 
     def extract_guest_stars(self):
-        return self.get_set_from_root("guest")
+        return self.get_list_from_root("guest")
 
     def extract_directors(self):
-        return self.get_set_from_root("director")
+        return self.get_list_from_root("director")
 
     def set_metadata(self, metadata):
         Nfo.set_metadata(self, metadata)
@@ -263,16 +263,16 @@ class MovieNfo(TvNfo):
         return self.get_date_from_root("releasedate")
 
     def extract_producers(self):
-        return self.get_set_from_root("producer")
+        return self.get_list_from_root("producer")
 
     def extract_writers(self):
-        return self.get_set_from_root("writer")
+        return self.get_list_from_root("writer")
 
     def extract_guest_stars(self):
-        return self.get_set_from_root("guest")
+        return self.get_list_from_root("guest")
 
     def extract_directors(self):
-        return self.get_set_from_root("director")
+        return self.get_list_from_root("director")
 
     def set_metadata(self, metadata):
         TvNfo.set_metadata(self, metadata)
