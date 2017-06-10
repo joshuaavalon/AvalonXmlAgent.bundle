@@ -256,7 +256,6 @@ class MovieNfo(TvNfo):
         TvNfo.__init__(self, root_element)
         self.producers = self.extract_producers()  # type: set
         self.writers = self.extract_writers()  # type: set
-        self.guest_stars = self.extract_guest_stars()  # type: set
         self.directors = self.extract_directors()  # type: set
 
     def extract_originally_available_at(self):
@@ -268,9 +267,6 @@ class MovieNfo(TvNfo):
     def extract_writers(self):
         return self.get_list_from_root("writer")
 
-    def extract_guest_stars(self):
-        return self.get_list_from_root("guest")
-
     def extract_directors(self):
         return self.get_list_from_root("director")
 
@@ -278,5 +274,4 @@ class MovieNfo(TvNfo):
         TvNfo.set_metadata(self, metadata)
         NfoUtil.set_metadata_set_name_field(self, metadata, "producers")
         NfoUtil.set_metadata_set_name_field(self, metadata, "writers")
-        NfoUtil.set_metadata_set_name_field(self, metadata, "guest_stars")
         NfoUtil.set_metadata_set_name_field(self, metadata, "directors")
