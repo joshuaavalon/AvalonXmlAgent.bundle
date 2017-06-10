@@ -62,12 +62,13 @@ class AvalonXmlTvAgent(Agent.TV_Shows):
 
         tv_nfo = TvNfo(root_element)
         tv_nfo.set_metadata(metadata)
-        self.update_episode(metadata, media, tv_nfo.title)
+        self.update_episode(metadata, media)
 
         PlexLog.debug("====================  Update end  ====================")
 
     @staticmethod
-    def update_episode(metadata, media, title):
+    def update_episode(metadata, media):
+        title = get_show_title(media)
         for season in media.seasons:
             for episode in media.seasons[season].episodes:
                 PlexLog.debug("Update %s (season: %s, episode: %s)" % (title, season, episode))
