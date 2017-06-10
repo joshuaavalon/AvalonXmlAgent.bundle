@@ -130,7 +130,6 @@ class TvNfo(Nfo):
             "content_rating",
             "studio",
             "originally_available_at",
-            "tagline",
             "summary",
             "rating"
         ]
@@ -144,8 +143,6 @@ class TvNfo(Nfo):
         self.content_rating = self.extract_content_rating()  # type: str
         self.studio = self.extract_studio()  # type: str
         self.originally_available_at = self.extract_originally_available_at()  # type: datetime
-        # Plex does not support
-        self.tagline = self.extract_tagline()  # type: str
         self.summary = self.extract_summary()  # type: str
         self.rating = self.extract_rating()  # type: float
         self.genres = self.extract_genres()  # type: set
