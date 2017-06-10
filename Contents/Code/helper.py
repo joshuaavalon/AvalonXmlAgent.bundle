@@ -4,8 +4,8 @@ import re
 from log import *
 
 IMAGE_EXTS = ['jpg', 'png', 'jpeg', 'tbn']
-MOVIE_REGEX = "^((.*)\S)\s+\((\d*)\)$"
-EPISODE_REGEX = "^(.*\S)\s+-.+$"
+MOVIE_REGEX = "^(.*\S)\s+\((\d*)\).*$"
+EPISODE_REGEX = "^(.*\S)\s+-\s+s\d{2,}e\d{2,}.*$"
 
 
 def get_show_directory(media):
