@@ -1,4 +1,6 @@
 # AvalonXmlAgent.bundle
+[![Release](https://img.shields.io/github/release/joshuaavalon/AvalonXmlAgent.bundle/all.svg?style=flat-square&colorB=brightgreen)](https://github.com/joshuaavalon/AvalonXmlAgent.bundle/releases)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/joshuaavalon/AvalonXmlAgent.bundle/blob/master/LICENSE)
 
 Avalon Xml Agent is a Plex TV and movie ageet that is inspired by [XBMCnfoTVImporter.bundle](https://github.com/gboudreau/XBMCnfoTVImporter.bundle) and [XBMCnfoMoviesImporter.bundle](https://github.com/gboudreau/XBMCnfoMoviesImporter.bundle).
 It is designed to use XML file as metadata instead of pull data from internet.
