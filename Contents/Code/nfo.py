@@ -28,7 +28,7 @@ class NfoUtil:
         tag_set = set()
         for tag_element in tag_elements:
             tag_text = tag_element.text
-            if not tag_text:
+            if tag_text:
                 tag_set.add(tag_text)
         return tag_set
 

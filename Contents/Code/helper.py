@@ -1,8 +1,11 @@
 import os
+import re
 
 from log import *
 
 IMAGE_EXTS = ['jpg', 'png', 'jpeg', 'tbn']
+MOVIE_REGEX = "^((.*)\S)\s+\((\d*)\)$"
+EPISODE_REGEX = "^(.*\S)\s+-.+$"
 
 
 def get_show_directory(media):
@@ -50,10 +53,6 @@ def get_show_title(media):
 
 def get_movie_title(media):
     return getattr(media, "name", getattr(media, "title", "Unknown"))
-
-
-def get_movie_year(media):
-    return getattr(media, "year", getattr(media, "id", -1))
 
 
 def get_show_nfo(media):
@@ -107,7 +106,7 @@ def debug_print_object(obj):
 def guess_episode_asset(media, season, episode, ext):
     file_path = media.seasons[season].episodes[episode].items[0].parts[0].file
     file_directory = os.path.dirname(file_path)
-    title = get_show_title(media)
+    title = guess_episode_name(file_path)
     standard_name = "%s - s%se%s.%s" % (title, season.zfill(2), episode.zfill(2), ext)
     standard_path = os.path.join(file_directory, standard_name)
     fallback_path = "%s.%s" % (os.path.splitext(file_path)[0], ext)
@@ -117,13 +116,25 @@ def guess_episode_asset(media, season, episode, ext):
 def guess_movie_asset(media, ext):
     file_path = get_movie_path(media)
     file_directory = get_movie_directory(media)
-    name = get_movie_title(media)
-    debug_print_object(media)
-    year = get_movie_year(media)
+    name, year = guess_movie_name_year(file_path)
     standard_name = "%s (%s).%s" % (name, year, ext)
     standard_path = os.path.join(file_directory, standard_name)
     fallback_path = "%s.%s" % (os.path.splitext(file_path)[0], ext)
     return standard_path, fallback_path
+
+
+def guess_episode_name(file_path):
+    file_name = os.path.basename(file_path)
+    file_name_without_ext = os.path.splitext(file_name)[0]
+    result = re.search(EPISODE_REGEX, file_name_without_ext)
+    return result.group(1)
+
+
+def guess_movie_name_year(file_path):
+    file_name = os.path.basename(file_path)
+    file_name_without_ext = os.path.splitext(file_name)[0]
+    result = re.search(MOVIE_REGEX, file_name_without_ext)
+    return result.group(1), result.group(2)
 
 
 def get_episode_thumb(media, season, episode):

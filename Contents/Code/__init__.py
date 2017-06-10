@@ -75,7 +75,7 @@ class AvalonXmlTvAgent(Agent.TV_Shows):
                 episode_metadata = metadata.seasons[season].episodes[episode]
                 root_element = get_episode_nfo(media, season, episode)
                 if root_element is None:
-                    PlexLog.warn("Cannot find episode nfo")
+                    PlexLog.warn("Cannot find episode nfo (Season: %s, Episode: %s)" % (season, episode))
                     continue
                 if root_element.tag != "episodedetails":
                     PlexLog.warn("Invalid format. The root tag should be <episodedetails>.")
@@ -123,7 +123,7 @@ class AvalonXmlMovieAgent(Agent.Movies):
         PlexLog.debug("Title: %s" % title)
         PlexLog.debug("Year: %d" % year)
 
-        results.Append(MetadataSearchResult(id=year, name=title, year=year, lang=lang, score=100))
+        results.Append(MetadataSearchResult(id=media.id, name=title, year=year, lang=lang, score=100))
 
         PlexLog.debug("====================  Search end  ====================")
 
