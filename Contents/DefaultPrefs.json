@@ -1,0 +1,22 @@
+[
+  {
+    "id": "LogLevel",
+    "label": "Log level (Default: Info)",
+    "type": "enum",
+    "values": [
+      "Debug",
+      "Info",
+      "Warn",
+      "Error",
+      "Critical",
+      "Exception"
+    ],
+    "default": "Info"
+  },
+  {
+    "id": "ActorsDirectory",
+    "label": "Find image from actor folder if thumb is not define. (Empty to disable)",
+    "type": "text",
+    "default": ""
+  }
+]
