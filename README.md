@@ -25,13 +25,17 @@ It should work expect for `director`, `writer` and multiple `set`
 The following assume you use Ubuntu
 
 ### Git
-1. `cd /var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-ins/`
-2. `sudo git clone https://github.com/joshuaavalon/AvalonXmlAgent.bundle.git`
-3. `sudo chown plex:plex AvalonXmlAgent.bundle`
-4. `sudo service plexmediaserver restart`
+```sh
+cd /var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-ins/
+sudo git clone https://github.com/joshuaavalon/AvalonXmlAgent.bundle.git
+sudo chown plex:plex AvalonXmlAgent.bundle
+sudo service plexmediaserver restart
+```
 
 ### Maually
-1. `sudo wget https://github.com/joshuaavalon/AvalonXmlAgent.bundle/archive/master.zip -P /var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-ins/`
-2. `sudo unzip master.zip -d AvalonXmlAgent.bundle`
-3. `sudo chown plex:plex AvalonXmlAgent.bundle`
-4. `sudo service plexmediaserver restart`
+```sh
+sudo wget https://github.com/joshuaavalon/AvalonXmlAgent.bundle/archive/master.zip -P /var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-ins/
+sudo unzip master.zip -d AvalonXmlAgent.bundle
+sudo chown plex:plex AvalonXmlAgent.bundle
+sudo service plexmediaserver restart
+```
