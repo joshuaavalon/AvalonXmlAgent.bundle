@@ -12,10 +12,26 @@ Avalon Xml Agent is very strict about naming convention and nfo format. This all
 One of the feature is static nfo name. It can read `show - s01e01.nfo` even when a better version `show - s01e01.hd.mp4` has been add.
 
 ## Compbability
-TBD
+> XBMCnfoTVImporter, XBMCnfoMoviesImporter > AvalonXmlAgent
+Only specific tags are working.
+
+> AvalonXmlAgent > XBMCnfoTVImporter, XBMCnfoMoviesImporter
+It should work expect for `director`, `writer` and multiple `set`
 
 ## Format
-TBD
+[See Wiki](https://github.com/joshuaavalon/AvalonXmlAgent.bundle/wiki/File-Format)
 
 ## Install
-TBD
+The following assume you use Ubuntu
+
+### Git
+1. `cd /var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-ins/`
+2. `sudo git clone https://github.com/joshuaavalon/AvalonXmlAgent.bundle.git`
+3. `sudo chown plex:plex AvalonXmlAgent.bundle`
+4. `sudo service plexmediaserver restart`
+
+### Maually
+1. `sudo wget https://github.com/joshuaavalon/AvalonXmlAgent.bundle/archive/master.zip -P /var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-ins/`
+2. `sudo unzip master.zip -d AvalonXmlAgent.bundle`
+3. `sudo chown plex:plex AvalonXmlAgent.bundle`
+4. `sudo service plexmediaserver restart`
