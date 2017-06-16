@@ -13,9 +13,11 @@ One of the feature is static nfo name. It can read `show - s01e01.nfo` even when
 
 ## Compbability
 > XBMCnfoTVImporter, XBMCnfoMoviesImporter > AvalonXmlAgent
+
 Only specific tags are working.
 
 > AvalonXmlAgent > XBMCnfoTVImporter, XBMCnfoMoviesImporter
+
 It should work expect for `director`, `writer` and multiple `set`
 
 ## Format
