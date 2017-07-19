@@ -158,7 +158,8 @@ def get_actor_thumb(name):
 
 
 def select_exist(*args):
-    for path in enumerate(args):
+    for index, path in enumerate(args):
+        print(path)
         if exists(path):
             return path
     return None
