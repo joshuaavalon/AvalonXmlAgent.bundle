@@ -257,6 +257,8 @@ class MovieNfo(TvNfo):
         self.producers = self.extract_producers()  # type: set
         self.writers = self.extract_writers()  # type: set
         self.directors = self.extract_directors()  # type: set
+        self.year = self.originally_available_at.year  # type: int
+        self.value_fields.append("year")
 
     def extract_originally_available_at(self):
         return self.get_date_from_root("releasedate")
