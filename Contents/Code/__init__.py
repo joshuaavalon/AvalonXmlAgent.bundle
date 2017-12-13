@@ -1,3 +1,5 @@
+from base64 import b64encode
+
 from helper import *
 from log import *
 from nfo import *
@@ -39,7 +41,9 @@ class AvalonXmlTvAgent(Agent.TV_Shows):
         PlexLog.debug("Title: %s" % title)
         PlexLog.debug("Year: %d" % year)
 
-        results.Append(MetadataSearchResult(id=media.id, name=title, year=year, lang=lang, score=100))
+        mid = b64encode("%s:%d" % (title, year))
+
+        results.Append(MetadataSearchResult(id=mid, name=title, year=year, lang=lang, score=100))
 
         PlexLog.debug("====================  Search end  ====================")
 
@@ -125,7 +129,9 @@ class AvalonXmlMovieAgent(Agent.Movies):
         PlexLog.debug("Title: %s" % title)
         PlexLog.debug("Year: %d" % year)
 
-        results.Append(MetadataSearchResult(id=media.id, name=title, year=year, lang=lang, score=100))
+        mid = b64encode("%s:%d" % (title, year))
+
+        results.Append(MetadataSearchResult(id=mid, name=title, year=year, lang=lang, score=100))
 
         PlexLog.debug("====================  Search end  ====================")
 
