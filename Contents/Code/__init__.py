@@ -8,7 +8,7 @@ from nfo import *
 # noinspection PyClassHasNoInit
 class AvalonXmlTvAgent(Agent.TV_Shows):
     name = "Avalon XML TV Agent"
-    ver = "1.0.0"
+    ver = "1.1.0"
     primary_provider = True
     languages = [Locale.Language.NoLanguage]
     accepts_from = ["com.plexapp.agents.localmedia"]
@@ -20,7 +20,7 @@ class AvalonXmlTvAgent(Agent.TV_Shows):
         PlexLog.info("Search for %s" % get_show_title(media))
 
         # Get the root element in nfo
-        root_element = get_show_nfo(media)
+        root_element = get_show_xml(media)
 
         if root_element is None:
             PlexLog.error("Cannot find tvshow.nfo in show directory.")
@@ -54,7 +54,7 @@ class AvalonXmlTvAgent(Agent.TV_Shows):
         PlexLog.info("Search for %s" % get_show_title(media))
 
         # Get the root element in nfo
-        root_element = get_show_nfo(media)
+        root_element = get_show_xml(media)
 
         if root_element is None:
             PlexLog.error("Cannot find tvshow.nfo in show directory.")
@@ -77,7 +77,7 @@ class AvalonXmlTvAgent(Agent.TV_Shows):
             for episode in media.seasons[season].episodes:
                 PlexLog.debug("Update %s (season: %s, episode: %s)" % (title, season, episode))
                 episode_metadata = metadata.seasons[season].episodes[episode]
-                root_element = get_episode_nfo(media, season, episode)
+                root_element = get_episode_xml(media, season, episode)
                 if root_element is None:
                     PlexLog.warn("Cannot find episode nfo (Season: %s, Episode: %s)" % (season, episode))
                     continue
@@ -96,7 +96,7 @@ class AvalonXmlTvAgent(Agent.TV_Shows):
 # noinspection PyClassHasNoInit
 class AvalonXmlMovieAgent(Agent.Movies):
     name = "Avalon XML Movie Agent"
-    ver = "1.0.0"
+    ver = "1.1.0"
     primary_provider = True
     languages = [Locale.Language.NoLanguage]
     accepts_from = ["com.plexapp.agents.localmedia"]
@@ -108,7 +108,7 @@ class AvalonXmlMovieAgent(Agent.Movies):
         PlexLog.info("Search for %s" % get_movie_title(media))
 
         # Get the root element in nfo
-        root_element = get_movie_nfo(media)
+        root_element = get_movie_xml(media)
 
         if root_element is None:
             PlexLog.error("Cannot find nfo in movie directory.")
@@ -142,7 +142,7 @@ class AvalonXmlMovieAgent(Agent.Movies):
         PlexLog.info("Search for %s" % get_movie_title(media))
 
         # Get the root element in nfo
-        root_element = get_movie_nfo(media)
+        root_element = get_movie_xml(media)
 
         if root_element is None:
             PlexLog.error("Cannot find nfo in movie directory.")

@@ -3,7 +3,7 @@ from helper import get_actor_thumb
 
 
 # noinspection PyClassHasNoInit
-class NfoUtil:
+class XmlUtil:
     @staticmethod
     def get_text(element, tag, default=None):
         """
@@ -34,7 +34,7 @@ class NfoUtil:
 
     @staticmethod
     def get_date(element, tag):
-        text = NfoUtil.get_text(element, tag)
+        text = XmlUtil.get_text(element, tag)
         if text is None:
             return None
         try:
@@ -48,9 +48,9 @@ class NfoUtil:
         tag_elements = element.findall(tag)
         actors = []
         for tag_element in tag_elements:
-            name = NfoUtil.get_text(tag_element, "name", "")
-            role = NfoUtil.get_text(tag_element, "role", "")
-            thumb = NfoUtil.get_text(tag_element, "thumb", "")
+            name = XmlUtil.get_text(tag_element, "name", "")
+            role = XmlUtil.get_text(tag_element, "role", "")
+            thumb = XmlUtil.get_text(tag_element, "thumb", "")
             if not thumb:
                 thumb = get_actor_thumb
             actors.append((name, role, thumb))
@@ -81,20 +81,20 @@ class NfoUtil:
                 metadata_list.new().name = value
 
 
-class Nfo:
+class BaseXml:
     def __init__(self, root_element):
         self.root_element = root_element  # type: _Element
         self.value_fields = []
         self.set_fields = []
 
     def get_text_from_root(self, tag):
-        return NfoUtil.get_text(self.root_element, tag)
+        return XmlUtil.get_text(self.root_element, tag)
 
     def get_list_from_root(self, tag):
-        return NfoUtil.get_list(self.root_element, tag)
+        return XmlUtil.get_list(self.root_element, tag)
 
     def get_date_from_root(self, tag):
-        return NfoUtil.get_date(self.root_element, tag)
+        return XmlUtil.get_date(self.root_element, tag)
 
     def get_rating_from_root(self, tag):
         rating_str = self.get_text_from_root(tag)
@@ -106,10 +106,10 @@ class Nfo:
 
     def set_metadata(self, metadata):
         for field in self.value_fields:
-            NfoUtil.set_metadata_value_field(self, metadata, field)
+            XmlUtil.set_metadata_value_field(self, metadata, field)
 
         for field in self.set_fields:
-            NfoUtil.set_metadata_set_field(self, metadata, field)
+            XmlUtil.set_metadata_set_field(self, metadata, field)
 
     def __repr__(self):
         repr_str = ""
@@ -120,9 +120,9 @@ class Nfo:
         return repr_str
 
 
-class TvNfo(Nfo):
+class TvXml(BaseXml):
     def __init__(self, root_element):
-        Nfo.__init__(self, root_element)
+        BaseXml.__init__(self, root_element)
         self.value_fields = [
             "title",
             "title_sort",
@@ -183,10 +183,10 @@ class TvNfo(Nfo):
         return self.get_list_from_root("set")
 
     def extract_actors(self):
-        return NfoUtil.get_actors(self.root_element, "actor")
+        return XmlUtil.get_actors(self.root_element, "actor")
 
     def set_metadata(self, metadata):
-        Nfo.set_metadata(self, metadata)
+        BaseXml.set_metadata(self, metadata)
         self.set_metadata_actors(metadata)
 
     def set_metadata_actors(self, metadata):
@@ -196,9 +196,9 @@ class TvNfo(Nfo):
             role.name, role.role, role.photo = actor
 
 
-class EpisodeNfo(Nfo):
+class EpisodeNfo(BaseXml):
     def __init__(self, root_element):
-        Nfo.__init__(self, root_element)
+        BaseXml.__init__(self, root_element)
         self.value_fields = [
             "title",
             "content_rating",
@@ -244,16 +244,16 @@ class EpisodeNfo(Nfo):
         return self.get_list_from_root("director")
 
     def set_metadata(self, metadata):
-        Nfo.set_metadata(self, metadata)
-        NfoUtil.set_metadata_set_name_field(self, metadata, "producers")
-        NfoUtil.set_metadata_set_name_field(self, metadata, "writers")
-        NfoUtil.set_metadata_set_name_field(self, metadata, "guest_stars")
-        NfoUtil.set_metadata_set_name_field(self, metadata, "directors")
+        BaseXml.set_metadata(self, metadata)
+        XmlUtil.set_metadata_set_name_field(self, metadata, "producers")
+        XmlUtil.set_metadata_set_name_field(self, metadata, "writers")
+        XmlUtil.set_metadata_set_name_field(self, metadata, "guest_stars")
+        XmlUtil.set_metadata_set_name_field(self, metadata, "directors")
 
 
-class MovieNfo(TvNfo):
+class MovieXml(TvXml):
     def __init__(self, root_element):
-        TvNfo.__init__(self, root_element)
+        TvXml.__init__(self, root_element)
         self.producers = self.extract_producers()  # type: set
         self.writers = self.extract_writers()  # type: set
         self.directors = self.extract_directors()  # type: set
@@ -273,7 +273,7 @@ class MovieNfo(TvNfo):
         return self.get_list_from_root("director")
 
     def set_metadata(self, metadata):
-        TvNfo.set_metadata(self, metadata)
-        NfoUtil.set_metadata_set_name_field(self, metadata, "producers")
-        NfoUtil.set_metadata_set_name_field(self, metadata, "writers")
-        NfoUtil.set_metadata_set_name_field(self, metadata, "directors")
+        TvXml.set_metadata(self, metadata)
+        XmlUtil.set_metadata_set_name_field(self, metadata, "producers")
+        XmlUtil.set_metadata_set_name_field(self, metadata, "writers")
+        XmlUtil.set_metadata_set_name_field(self, metadata, "directors")

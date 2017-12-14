@@ -36,7 +36,7 @@ def get_movie_path(media):
     return media.items[0].parts[0].file
 
 
-def get_show_nfo_path(show_directory):
+def get_show_xml_path(show_directory):
     """
     Get the tvshow.nfo from show directory.
 
@@ -55,11 +55,11 @@ def get_movie_title(media):
     return getattr(media, "name", getattr(media, "title", "Unknown"))
 
 
-def get_show_nfo(media):
+def get_show_xml(media):
     show_directory = get_show_directory(media)
     if show_directory is None:
         return None
-    nfo_path = get_show_nfo_path(show_directory)
+    nfo_path = get_show_xml_path(show_directory)
     if nfo_path is not None:
         xml_str = Core.storage.load(nfo_path)
         return XML.ElementFromString(xml_str)
@@ -67,7 +67,7 @@ def get_show_nfo(media):
         return None
 
 
-def get_episode_nfo(media, season, episode):
+def get_episode_xml(media, season, episode):
     standard_xml_path, fallback_xml_path = guess_episode_asset(media, season, episode, "xml")
     standard_nfo_path, fallback_nfo_path = guess_episode_asset(media, season, episode, "nfo")
     file_path = select_exist(standard_xml_path, standard_nfo_path, fallback_xml_path, fallback_nfo_path)
@@ -78,7 +78,7 @@ def get_episode_nfo(media, season, episode):
         return None
 
 
-def get_movie_nfo(media):
+def get_movie_xml(media):
     standard_xml_path, fallback_xml_path = guess_movie_asset(media, "xml")
     standard_nfo_path, fallback_nfo_path = guess_movie_asset(media, "nfo")
     file_path = select_exist(standard_xml_path, standard_nfo_path, fallback_xml_path, fallback_nfo_path)
