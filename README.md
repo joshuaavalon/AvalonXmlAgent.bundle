@@ -6,7 +6,7 @@ Avalon Xml Agent is a Plex TV and movie agent that is inspired by [XBMCnfoTVImpo
 It is designed to use XML file as metadata instead of pull data from internet.
 It allows you to maintain and backup your metadata much easier and prevent some random guys on internet modify the metadata that you used to.
 
-See [Frequently Asked Questions](#Frequently Asked Questions) for more details.
+See [Frequently Asked Questions](#frequently-asked-questions) for more details.
 
 ## Format
 [See Wiki](https://github.com/joshuaavalon/AvalonXmlAgent.bundle/wiki/File-Format)
