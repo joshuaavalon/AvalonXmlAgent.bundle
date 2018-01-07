@@ -196,7 +196,7 @@ class TvXml(BaseXml):
             role.name, role.role, role.photo = actor
 
 
-class EpisodeNfo(BaseXml):
+class EpisodeXml(BaseXml):
     def __init__(self, root_element):
         BaseXml.__init__(self, root_element)
         self.value_fields = [

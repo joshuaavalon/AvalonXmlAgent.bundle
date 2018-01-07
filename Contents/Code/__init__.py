@@ -30,7 +30,7 @@ class AvalonXmlTvAgent(Agent.TV_Shows):
             PlexLog.error("Invalid format. The root tag should be <tvshow>.")
             return None
 
-        tv_nfo = TvNfo(root_element)
+        tv_nfo = TvXml(root_element)
 
         title = tv_nfo.title
         if title is None:
@@ -65,7 +65,7 @@ class AvalonXmlTvAgent(Agent.TV_Shows):
             PlexLog.error("Invalid format. The root tag should be <tvshow>.")
             return None
 
-        tv_nfo = TvNfo(root_element)
+        tv_nfo = TvXml(root_element)
         tv_nfo.set_metadata(metadata)
         self.update_episode(metadata, media)
 
@@ -86,7 +86,7 @@ class AvalonXmlTvAgent(Agent.TV_Shows):
                     PlexLog.warn("Invalid format. The root tag should be <episodedetails>.")
                     continue
 
-                episode_nfo = EpisodeNfo(root_element)
+                episode_nfo = EpisodeXml(root_element)
                 episode_nfo.set_metadata(episode_metadata)
                 thumb_result = get_episode_thumb(media, season, episode)
                 if thumb_result is not None:
@@ -119,7 +119,7 @@ class AvalonXmlMovieAgent(Agent.Movies):
             PlexLog.error("Invalid format. The root tag should be <movie>.")
             return None
 
-        movie_nfo = MovieNfo(root_element)
+        movie_nfo = MovieXml(root_element)
 
         title = movie_nfo.title
         if title is None:
@@ -154,7 +154,7 @@ class AvalonXmlMovieAgent(Agent.Movies):
             PlexLog.error("Invalid format. The root tag should be <movie>.")
             return None
 
-        movie_nfo = MovieNfo(root_element)
+        movie_nfo = MovieXml(root_element)
         movie_nfo.set_metadata(metadata)
 
         PlexLog.debug("====================  Update end  ====================")
