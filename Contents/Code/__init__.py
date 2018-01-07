@@ -41,7 +41,8 @@ class AvalonXmlTvAgent(Agent.TV_Shows):
         PlexLog.debug("Title: %s" % title)
         PlexLog.debug("Year: %d" % year)
 
-        mid = b64encode("%s:%d" % (title, year))
+        # Plex throws exception that have "/" in ID
+        mid = b64encode("%s:%d" % (title, year)).replace("/", "_")
 
         results.Append(MetadataSearchResult(id=mid, name=title, year=year, lang=lang, score=100))
 
@@ -128,8 +129,9 @@ class AvalonXmlMovieAgent(Agent.Movies):
         year = movie_nfo.originally_available_at.year if movie_nfo.originally_available_at is not None else 0
         PlexLog.debug("Title: %s" % title)
         PlexLog.debug("Year: %d" % year)
-
-        mid = b64encode("%s:%d" % (title, year))
+        
+        # Plex throws exception that have "/" in ID
+        mid = b64encode("%s:%d" % (title, year)).replace("/", "_")
 
         results.Append(MetadataSearchResult(id=mid, name=title, year=year, lang=lang, score=100))
 
