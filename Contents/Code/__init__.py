@@ -2,7 +2,7 @@ from base64 import b64encode
 
 from helper import *
 from log import *
-from nfo import *
+from xml import *
 
 
 # noinspection PyClassHasNoInit
@@ -129,7 +129,7 @@ class AvalonXmlMovieAgent(Agent.Movies):
         year = movie_nfo.originally_available_at.year if movie_nfo.originally_available_at is not None else 0
         PlexLog.debug("Title: %s" % title)
         PlexLog.debug("Year: %d" % year)
-        
+
         # Plex throws exception that have "/" in ID
         mid = b64encode("%s:%d" % (title, year)).replace("/", "_")
 
