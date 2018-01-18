@@ -1,5 +1,6 @@
 from os.path import dirname, join, splitext, exists, basename
 import re
+import urllib2
 
 from log import *
 
@@ -163,3 +164,24 @@ def select_exist(*args):
         if exists(path):
             return path
     return None
+    
+def put_update(media_id, title, tagline):
+    token = Prefs["Token"]
+    if (title is None and tagline is None) or not token:
+        return
+    pageUrl = "http://127.0.0.1:32400/library/metadata/" + media_id
+    xml_element = XML.ElementFromURL(pageUrl)
+    section = String.Unquote(xml_element.xpath("//MediaContainer")[0].get("librarySectionID").encode("utf-8"))
+    opener = urllib2.build_opener(urllib2.HTTPHandler)
+    request_url = "http://127.0.0.1:32400/library/sections/" + section + "/all?type=2&id=" + media_id + "&X-Plex-Token=" + token
+    if title is not None:
+        request_url += "&originalTitle.value=" + title
+    if tagline is not None:
+        request_url += "&tagline.value=" + tagline
+    request = urllib2.Request(request_url)
+    request.get_method = lambda: 'PUT'
+    try:
+        url = opener.open(request)
+        url.read()      
+    except HTTPError as e:
+        PlexLog.error(e.strerror)

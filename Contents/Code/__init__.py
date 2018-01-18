@@ -30,6 +30,7 @@ class AvalonXmlTvAgent(Agent.TV_Shows):
             PlexLog.error("Invalid format. The root tag should be <tvshow>.")
             return None
 
+
         tv_nfo = TvXml(root_element)
 
         title = tv_nfo.title
@@ -66,6 +67,7 @@ class AvalonXmlTvAgent(Agent.TV_Shows):
             return None
 
         tv_nfo = TvXml(root_element)
+        put_update(str(media.id), tv_nfo.original_title, tv_nfo.tagline)
         tv_nfo.set_metadata(metadata)
         self.update_episode(metadata, media)
 
@@ -158,4 +160,3 @@ class AvalonXmlMovieAgent(Agent.Movies):
         movie_nfo.set_metadata(metadata)
 
         PlexLog.debug("====================  Update end  ====================")
-        pass

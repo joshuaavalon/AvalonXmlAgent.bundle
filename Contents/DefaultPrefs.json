@@ -14,6 +14,12 @@
     "default": "Info"
   },
   {
+    "id": "Token",
+    "label": "Plex token to update original title and tagline",
+    "type": "text",
+    "default": ""
+  },
+  {
     "id": "ActorsDirectory",
     "label": "Find image from actor folder if thumb is not define. (Empty to disable)",
     "type": "text",

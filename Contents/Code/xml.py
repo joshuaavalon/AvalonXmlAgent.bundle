@@ -131,7 +131,8 @@ class TvXml(BaseXml):
             "studio",
             "originally_available_at",
             "summary",
-            "rating"
+            "rating",
+            "tagline"
         ]
         self.set_fields = [
             "genres",
@@ -141,6 +142,7 @@ class TvXml(BaseXml):
         self.title_sort = self.extract_title_sort()  # type: str
         self.original_title = self.extract_original_title()  # type: str
         self.content_rating = self.extract_content_rating()  # type: str
+        self.tagline = self.extract_tagline()  # type: str
         self.studio = self.extract_studio()  # type: str
         self.originally_available_at = self.extract_originally_available_at()  # type: datetime
         self.summary = self.extract_summary()  # type: str
