@@ -48,7 +48,4 @@ many text editor. You have to manually select XML highlight.
 * Have [tool for generate XML file](https://github.com/joshuaavalon/AvalonXmlTools).
 * Static naming. XMBC always search for `.nfo` with the same name of the video which cause problem when Plex choose between
 multiple version video.
-
-**Why some of the tags does not work?**
-
-Those fields are exists in the code but Plex is not using it. I can do nothing about it.
+* Support all the fields in web UI. Note that there are some limitations, [see Wiki](https://github.com/joshuaavalon/AvalonXmlAgent.bundle/wiki/File-Format).
