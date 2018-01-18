@@ -67,7 +67,7 @@ class AvalonXmlTvAgent(Agent.TV_Shows):
             return None
 
         tv_nfo = TvXml(root_element)
-        put_update(str(media.id), tv_nfo.original_title, tv_nfo.tagline)
+        put_update(str(media.id), "2", tv_nfo.original_title, tv_nfo.tagline)
         tv_nfo.set_metadata(metadata)
         self.update_episode(metadata, media)
 
@@ -77,7 +77,13 @@ class AvalonXmlTvAgent(Agent.TV_Shows):
     def update_episode(metadata, media):
         title = get_show_title(media)
         for season in media.seasons:
+            updated_summary = False
             for episode in media.seasons[season].episodes:
+                if not updated_summary:                    
+                    season_id = media.seasons[season].id
+                    summary = get_summary_txt(media, season, episode)
+                    put_update(season_id, "3", summary=summary)
+                    updated_summary = True
                 PlexLog.debug("Update %s (season: %s, episode: %s)" % (title, season, episode))
                 episode_metadata = metadata.seasons[season].episodes[episode]
                 root_element = get_episode_xml(media, season, episode)

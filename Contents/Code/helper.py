@@ -89,7 +89,15 @@ def get_movie_xml(media):
         return XML.ElementFromString(xml_str)
     else:
         return None
-
+        
+def get_summary_txt(media, season, episode):
+    file_path = media.seasons[season].episodes[episode].items[0].parts[0].file
+    file_directory = dirname(file_path)
+    standard_path = join(file_directory, "Summary.txt")
+    if standard_path is not None:
+        return Core.storage.load(standard_path)
+    else:
+        return None
 
 def debug_print_object(obj):
     PlexLog.debug("debug_print_object")
@@ -166,22 +174,23 @@ def select_exist(*args):
             return path
     return None
     
-def put_update(media_id, title, tagline):
+def put_update(media_id, update_type, title=None, tagline=None, summary=None):
     token = Prefs["Token"]
-    if  not token:
+    if (title is None and tagline is None and summary is None) or not token:
         return
     pageUrl = "http://127.0.0.1:32400/library/metadata/" + media_id
     xml_element = XML.ElementFromURL(pageUrl)
     section = String.Unquote(xml_element.xpath("//MediaContainer")[0].get("librarySectionID").encode("utf-8"))
     opener = urllib2.build_opener(urllib2.HTTPHandler)
-    query = {"type": "2", "id": media_id, "X-Plex-Token": token, "originalTitle.locked": "0", "tagline.locked": "0"} # Movie Type 1
+    query = {"type": update_type, "id": media_id, "X-Plex-Token": token} # Movie Type 1
     request_url = "http://127.0.0.1:32400/library/sections/" + section + "/all?"
     if title is not None:
         query["originalTitle.value"] = title
     if tagline is not None:
         query["tagline.value"] = tagline
+    if summary is not None:
+        query["summary.value"] = summary
     request_url += urllib.urlencode(query)
-    PlexLog.warn("request_url %s" % request_url)
     request = urllib2.Request(request_url)
     request.get_method = lambda: 'PUT'
     try:
