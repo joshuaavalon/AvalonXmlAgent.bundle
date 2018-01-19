@@ -82,7 +82,8 @@ class AvalonXmlTvAgent(Agent.TV_Shows):
                 if not updated_summary:                    
                     season_id = media.seasons[season].id
                     summary = get_summary_txt(media, season, episode)
-                    put_update(season_id, "3", summary=summary)
+                    if summary is not None:
+                        put_update(season_id, "3", summary=summary)
                     updated_summary = True
                 PlexLog.debug("Update %s (season: %s, episode: %s)" % (title, season, episode))
                 episode_metadata = metadata.seasons[season].episodes[episode]

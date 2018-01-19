@@ -94,7 +94,7 @@ def get_summary_txt(media, season, episode):
     file_path = media.seasons[season].episodes[episode].items[0].parts[0].file
     file_directory = dirname(file_path)
     standard_path = join(file_directory, "Summary.txt")
-    if standard_path is not None:
+    if exists(standard_path):
         return Core.storage.load(standard_path)
     else:
         return None
