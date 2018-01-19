@@ -131,8 +131,7 @@ class TvXml(BaseXml):
             "studio",
             "originally_available_at",
             "summary",
-            "rating",
-            "tagline"
+            "rating"
         ]
         self.set_fields = [
             "genres",
@@ -276,6 +275,7 @@ class MovieXml(TvXml):
 
     def set_metadata(self, metadata):
         TvXml.set_metadata(self, metadata)
+        XmlUtil.set_metadata_value_field(self, metadata, "tagline")
         XmlUtil.set_metadata_set_name_field(self, metadata, "producers")
         XmlUtil.set_metadata_set_name_field(self, metadata, "writers")
         XmlUtil.set_metadata_set_name_field(self, metadata, "directors")
