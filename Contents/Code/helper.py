@@ -1,7 +1,7 @@
-from os.path import dirname, join, splitext, exists, basename
 import re
-import urllib2
 import urllib
+import urllib2
+from os.path import dirname, join, splitext, exists, basename
 
 from log import *
 
@@ -89,7 +89,18 @@ def get_movie_xml(media):
         return XML.ElementFromString(xml_str)
     else:
         return None
-        
+
+
+def get_artist_xml(media):
+    file_directory = get_movie_directory(media)
+    file_path = join(file_directory, "artist.xml")
+    if exists(file_path):
+        xml_str = Core.storage.load(file_path)
+        return XML.ElementFromString(xml_str)
+    else:
+        return None
+
+
 def get_summary_txt(media, season, episode):
     file_path = media.seasons[season].episodes[episode].items[0].parts[0].file
     file_directory = dirname(file_path)
@@ -98,6 +109,7 @@ def get_summary_txt(media, season, episode):
         return Core.storage.load(standard_path)
     else:
         return None
+
 
 def debug_print_object(obj):
     PlexLog.debug("debug_print_object")
@@ -173,7 +185,8 @@ def select_exist(*args):
         if exists(path):
             return path
     return None
-    
+
+
 def put_update(media_id, update_type, title=None, tagline=None, summary=None):
     token = Prefs["Token"]
     if (title is None and tagline is None and summary is None) or not token:
@@ -182,7 +195,7 @@ def put_update(media_id, update_type, title=None, tagline=None, summary=None):
     xml_element = XML.ElementFromURL(pageUrl)
     section = String.Unquote(xml_element.xpath("//MediaContainer")[0].get("librarySectionID").encode("utf-8"))
     opener = urllib2.build_opener(urllib2.HTTPHandler)
-    query = {"type": update_type, "id": media_id, "X-Plex-Token": token} # Movie Type 1
+    query = {"type": update_type, "id": media_id, "X-Plex-Token": token}  # Movie Type 1
     request_url = "http://127.0.0.1:32400/library/sections/" + section + "/all?"
     if title is not None:
         query["originalTitle.value"] = title
@@ -195,7 +208,7 @@ def put_update(media_id, update_type, title=None, tagline=None, summary=None):
     request.get_method = lambda: 'PUT'
     try:
         url = opener.open(request)
-        url.read()      
+        url.read()
     except urllib2.HTTPError as e:
         PlexLog.error("request_url %s" % request_url)
         PlexLog.error(str(e))
