@@ -201,9 +201,9 @@ class AvalonXmlArtistAgent(Agent.Artist):
             PlexLog.error("Invalid format. Missing <title> tag.")
             return None
 
-        PlexLog.debug("Artist: %s" % artist)
+        PlexLog.debug("Artist: %s" % title)
 
-        results.Append(MetadataSearchResult(name=artist, lang=lang, score=100))
+        results.Append(MetadataSearchResult(id=media.id, name=title, lang=lang, year=None, score=100))
 
         PlexLog.debug("====================  Search end  ====================")
 

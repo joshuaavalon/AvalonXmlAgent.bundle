@@ -38,6 +38,14 @@ def get_movie_path(media):
     return media.items[0].parts[0].file
 
 
+def get_artist_directory(media):
+    for album in media.children:
+        for track in album.children:
+            track_dir = dirname(track.items[0].parts[0].file)
+            return dirname(track_dir)
+    return None
+
+
 def get_show_xml_path(show_directory):
     """
     Get the tvshow.nfo from show directory.
@@ -92,7 +100,7 @@ def get_movie_xml(media):
 
 
 def get_artist_xml(media):
-    file_directory = get_movie_directory(media)
+    file_directory = get_artist_directory(media)
     file_path = join(file_directory, "artist.xml")
     if exists(file_path):
         xml_str = Core.storage.load(file_path)

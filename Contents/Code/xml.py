@@ -297,14 +297,14 @@ class ArtistXml(BaseXml):
             "tags"
         ]
         self.title = self.extract_title()  # type: str
-        self.title_sort = self.extract_artist_sort()  # type: str
+        self.title_sort = self.extract_title_sort()  # type: str
         self.summary = self.extract_summary()  # type: str
         self.rating = self.extract_rating()  # type: float
         self.genres = self.extract_genres()  # type: set
         self.collections = self.extract_collections()  # type: set
         self.tags = self.extract_similar_artists()  # type: set
 
-    def extract_artist(self):
+    def extract_title(self):
         return self.get_text_from_root("title")
 
     def extract_title_sort(self):
