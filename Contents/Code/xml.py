@@ -286,29 +286,17 @@ class ArtistXml(BaseXml):
     def __init__(self, root_element):
         BaseXml.__init__(self, root_element)
         self.value_fields = [
-            "title",
-            "title_sort",
             "summary",
             "rating"
         ]
         self.set_fields = [
             "genres",
-            "collections",
-            "tags"
+            "collections"
         ]
-        self.title = self.extract_title()  # type: str
-        self.title_sort = self.extract_title_sort()  # type: str
         self.summary = self.extract_summary()  # type: str
         self.rating = self.extract_rating()  # type: float
         self.genres = self.extract_genres()  # type: set
         self.collections = self.extract_collections()  # type: set
-        self.tags = self.extract_similar_artists()  # type: set
-
-    def extract_title(self):
-        return self.get_text_from_root("title")
-
-    def extract_title_sort(self):
-        return self.get_text_from_root("sorttitle")
 
     def extract_summary(self):
         return self.get_text_from_root("summary")
@@ -322,5 +310,36 @@ class ArtistXml(BaseXml):
     def extract_collections(self):
         return self.get_list_from_root("set")
 
-    def extract_similar_artists(self):
-        return self.get_list_from_root("similar")
+
+class AlbumXml(BaseXml):
+    def __init__(self, root_element):
+        BaseXml.__init__(self, root_element)
+        self.value_fields = [
+            "originally_available_at",
+            "summary",
+            "rating"
+        ]
+        self.set_fields = [
+            "genres",
+            "collections"
+        ]
+        self.originally_available_at = self.extract_originally_available_at()  # type: datetime
+        self.summary = self.extract_summary()  # type: str
+        self.rating = self.extract_rating()  # type: float
+        self.genres = self.extract_genres()  # type: set
+        self.collections = self.extract_collections()  # type: set
+
+    def extract_originally_available_at(self):
+        return self.get_date_from_root("aired")
+
+    def extract_summary(self):
+        return self.get_text_from_root("summary")
+
+    def extract_genres(self):
+        return self.get_list_from_root("genre")
+
+    def extract_rating(self):
+        return self.get_rating_from_root("rating")
+
+    def extract_collections(self):
+        return self.get_list_from_root("set")

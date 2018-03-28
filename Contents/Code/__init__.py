@@ -194,16 +194,9 @@ class AvalonXmlArtistAgent(Agent.Artist):
             PlexLog.error("Invalid format. The root tag should be <artist>.")
             return None
 
-        artist_xml = ArtistXml(root_element)
+        PlexLog.debug("Artist: %s" % media.title)
 
-        title = artist_xml.title
-        if title is None:
-            PlexLog.error("Invalid format. Missing <title> tag.")
-            return None
-
-        PlexLog.debug("Artist: %s" % title)
-
-        results.Append(MetadataSearchResult(id=media.id, name=title, lang=lang, year=None, score=100))
+        results.Append(MetadataSearchResult(id=media.id, name=media.title, lang=lang, year=None, score=100))
 
         PlexLog.debug("====================  Search end  ====================")
 
@@ -226,4 +219,56 @@ class AvalonXmlArtistAgent(Agent.Artist):
         artist_xml = ArtistXml(root_element)
         artist_xml.set_metadata(metadata)
 
+        PlexLog.debug("====================  Update end  ====================")
+
+
+# noinspection PyClassHasNoInit
+class AvalonXmlAlbumAgent(Agent.Album):
+    name = "Avalon XML Album Agent"
+    ver = version
+    primary_provider = True
+    languages = [Locale.Language.NoLanguage]
+    accepts_from = ["com.plexapp.agents.localmedia"]
+
+    def search(self, results, media, lang, manual):
+        PlexLog.debug("==================== Search Start ====================")
+        PlexLog.debug("%s (%s)" % (self.name, self.ver))
+        PlexLog.debug("Plex version: %s" % Platform.ServerVersion)
+
+        # Get the root element in xml
+        root_element = get_album_xml(media)
+
+        if root_element is None:
+            PlexLog.error("Cannot find xml in movie directory.")
+            return None
+
+        if root_element.tag != "album":
+            PlexLog.error("Invalid format. The root tag should be <album>.")
+            return None
+
+        PlexLog.debug("Album: %s" % media.title)
+
+        results.Append(MetadataSearchResult(id=media.id, name=media.title, lang=lang, year=None, score=100))
+
+        PlexLog.debug("====================  Search end  ====================")
+
+    def update(self, metadata, media, lang, force):
+        PlexLog.debug("==================== Update Start ====================")
+        PlexLog.debug("%s (%s)" % (self.name, self.ver))
+        PlexLog.debug("Plex version: %s" % Platform.ServerVersion)
+
+        # Get the root element in xml
+        root_element = get_album_xml(media)
+
+        if root_element is None:
+            PlexLog.error("Cannot find xml in movie directory.")
+            return None
+
+        if root_element.tag != "album":
+            PlexLog.error("Invalid format. The root tag should be <album>.")
+            return None
+
+        album_xml = AlbumXml(root_element)
+        album_xml.set_metadata(metadata)
+        update_album(str(media.id), media.title, album_xml)
         PlexLog.debug("====================  Update end  ====================")

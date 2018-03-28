@@ -46,6 +46,12 @@ def get_artist_directory(media):
     return None
 
 
+def get_album_directory(media):
+    for track in media.children:
+        return dirname(track.items[0].parts[0].file)
+    return None
+
+
 def get_show_xml_path(show_directory):
     """
     Get the tvshow.nfo from show directory.
@@ -102,6 +108,16 @@ def get_movie_xml(media):
 def get_artist_xml(media):
     file_directory = get_artist_directory(media)
     file_path = join(file_directory, "artist.xml")
+    if exists(file_path):
+        xml_str = Core.storage.load(file_path)
+        return XML.ElementFromString(xml_str)
+    else:
+        return None
+
+
+def get_album_xml(media):
+    file_directory = get_album_directory(media)
+    file_path = join(file_directory, "album.xml")
     if exists(file_path):
         xml_str = Core.storage.load(file_path)
         return XML.ElementFromString(xml_str)
@@ -199,8 +215,8 @@ def put_update(media_id, update_type, title=None, tagline=None, summary=None):
     token = Prefs["Token"]
     if (title is None and tagline is None and summary is None) or not token:
         return
-    pageUrl = "http://127.0.0.1:32400/library/metadata/" + media_id
-    xml_element = XML.ElementFromURL(pageUrl)
+    page_url = "http://127.0.0.1:32400/library/metadata/" + media_id
+    xml_element = XML.ElementFromURL(page_url)
     section = String.Unquote(xml_element.xpath("//MediaContainer")[0].get("librarySectionID").encode("utf-8"))
     opener = urllib2.build_opener(urllib2.HTTPHandler)
     query = {"type": update_type, "id": media_id, "X-Plex-Token": token}  # Movie Type 1
@@ -211,6 +227,35 @@ def put_update(media_id, update_type, title=None, tagline=None, summary=None):
         query["tagline.value"] = tagline
     if summary is not None:
         query["summary.value"] = summary
+    request_url += urllib.urlencode(query)
+    request = urllib2.Request(request_url)
+    request.get_method = lambda: 'PUT'
+    try:
+        url = opener.open(request)
+        url.read()
+    except urllib2.HTTPError as e:
+        PlexLog.error("request_url %s" % request_url)
+        PlexLog.error(str(e))
+
+
+def update_album(media_id, title, album_xml):
+    token = Prefs["Token"]
+    if not token:
+        return
+    PlexLog.debug("DTIEL:" + title)
+    page_url = "http://127.0.0.1:32400/library/metadata/" + media_id
+    xml_element = XML.ElementFromURL(page_url)
+    section = String.Unquote(xml_element.xpath("//MediaContainer")[0].get("librarySectionID").encode("utf-8"))
+    opener = urllib2.build_opener(urllib2.HTTPHandler)
+    query = {"type": 9, "id": media_id, "X-Plex-Token": token}  # Movie Type 1
+    request_url = "http://127.0.0.1:32400/library/sections/" + section + "/all?"
+    query["titleSort.value"] = title
+    # required to prevent Plex bug override
+    query["titleSort.locked"] = 1
+    i = 0
+    for collection in album_xml.collections:
+        query["collection[" + str(i) + "].tag.tag"] = collection
+        i += 1
     request_url += urllib.urlencode(query)
     request = urllib2.Request(request_url)
     request.get_method = lambda: 'PUT'
