@@ -291,12 +291,14 @@ class ArtistXml(BaseXml):
         ]
         self.set_fields = [
             "genres",
-            "collections"
+            "collections",
+            "similar"
         ]
         self.summary = self.extract_summary()  # type: str
         self.rating = self.extract_rating()  # type: float
         self.genres = self.extract_genres()  # type: set
         self.collections = self.extract_collections()  # type: set
+        self.similar = self.extract_similar()  # type: set
 
     def extract_summary(self):
         return self.get_text_from_root("summary")
@@ -309,6 +311,9 @@ class ArtistXml(BaseXml):
 
     def extract_collections(self):
         return self.get_list_from_root("set")
+
+    def extract_similar(self):
+        return self.get_list_from_root("similar")
 
 
 class AlbumXml(BaseXml):
