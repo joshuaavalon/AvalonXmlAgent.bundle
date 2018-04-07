@@ -4,6 +4,8 @@ from helper import *
 from log import *
 from xml import *
 
+from mutagen import File as MFile
+
 version = "2.0.0"
 
 
@@ -271,4 +273,17 @@ class AvalonXmlAlbumAgent(Agent.Album):
         album_xml = AlbumXml(root_element)
         album_xml.set_metadata(metadata)
         update_album(str(media.id), media.title, album_xml)
+
+        PlexLog.debug("====================  Update track  ====================")
+        for track in media.children:
+            part = track.items[0].parts[0].file
+            self.update_tracks(track.id, part)
         PlexLog.debug("====================  Update end  ====================")
+
+    def update_tracks(self, media_id, file):
+        try:
+            tags = MFile(file, None, True)
+            artist_str = " / ".join(tags["artist"])
+            update_track(media_id, artist_str)
+        except Exception, e:
+            PlexLog.error(e)

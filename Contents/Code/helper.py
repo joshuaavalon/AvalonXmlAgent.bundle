@@ -247,7 +247,7 @@ def update_album(media_id, title, album_xml):
     xml_element = XML.ElementFromURL(page_url)
     section = String.Unquote(xml_element.xpath("//MediaContainer")[0].get("librarySectionID").encode("utf-8"))
     opener = urllib2.build_opener(urllib2.HTTPHandler)
-    query = {"type": 9, "id": media_id, "X-Plex-Token": token}  # Movie Type 1
+    query = {"type": 9, "id": media_id, "X-Plex-Token": token}
     request_url = "http://127.0.0.1:32400/library/sections/" + section + "/all?"
     query["titleSort.value"] = title
     # required to prevent Plex bug override
@@ -259,6 +259,30 @@ def update_album(media_id, title, album_xml):
     request_url += urllib.urlencode(query)
     request = urllib2.Request(request_url)
     request.get_method = lambda: 'PUT'
+    try:
+        url = opener.open(request)
+        url.read()
+    except urllib2.HTTPError as e:
+        PlexLog.error("request_url %s" % request_url)
+        PlexLog.error(str(e))
+
+
+def update_track(media_id, artist):
+    token = Prefs["Token"]
+    if not token or artist is None:
+        return
+    page_url = "http://127.0.0.1:32400/library/metadata/" + media_id
+    xml_element = XML.ElementFromURL(page_url)
+    section = String.Unquote(xml_element.xpath("//MediaContainer")[0].get("librarySectionID").encode("utf-8"))
+    opener = urllib2.build_opener(urllib2.HTTPHandler)
+    query = {"type": 10, "id": media_id, "X-Plex-Token": token}
+    request_url = "http://127.0.0.1:32400/library/sections/" + section + "/all?"
+    query["originalTitle.value"] = artist
+
+    request_url += urllib.urlencode(query)
+    request = urllib2.Request(request_url)
+    request.get_method = lambda: 'PUT'
+
     try:
         url = opener.open(request)
         url.read()
