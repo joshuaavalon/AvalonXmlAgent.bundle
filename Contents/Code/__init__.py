@@ -100,10 +100,12 @@ class AvalonXmlTvAgent(Agent.TV_Shows):
 
                 episode_xml = EpisodeXml(root_element)
                 episode_xml.set_metadata(episode_metadata)
+                """
                 thumb_result = get_episode_thumb(media, season, episode)
                 if thumb_result is not None:
                     thumb_path, thumb = thumb_result
                     episode_metadata.thumbs[thumb_path] = thumb
+                """
 
 
 # noinspection PyClassHasNoInit
