@@ -1,4 +1,5 @@
 from base64 import b64encode
+import hashlib
 
 from helper import *
 from log import *
@@ -222,6 +223,12 @@ class AvalonXmlArtistAgent(Agent.Artist):
 
         artist_xml = ArtistXml(root_element)
         artist_xml.set_metadata(metadata)
+
+        artist_cover = get_artist_cover(media)
+        if artist_cover is not None:
+            cover, proxy = artist_cover
+            key = hashlib.md5(cover).hexdigest()
+            metadata.posters[key] = proxy
 
         PlexLog.debug("====================  Update end  ====================")
 

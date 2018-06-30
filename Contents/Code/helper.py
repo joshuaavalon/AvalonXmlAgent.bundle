@@ -192,6 +192,18 @@ def get_episode_thumb(media, season, episode):
     return None
 
 
+def get_artist_cover(media):
+    file_directory = get_artist_directory(media)
+    file_path = join(file_directory, "cover.jpg")
+    if not exists(file_path):
+        file_path = join(file_directory, "cover.png")
+    if exists(file_path):
+        cover = Core.storage.load(file_path)
+        return cover, Proxy.Media(cover)
+    else:
+        return None
+
+
 def get_actor_thumb(name):
     actor_directory = Prefs["ActorsDirectory"]
     if not actor_directory or not exists(actor_directory):
