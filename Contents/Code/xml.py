@@ -53,7 +53,7 @@ class XmlUtil:
             role = XmlUtil.get_text(tag_element, "role", "")
             thumb = XmlUtil.get_text(tag_element, "thumb", "")
             if not thumb:
-                thumb = get_actor_thumb
+                thumb = get_actor_thumb(name)
             actors.append((name, role, thumb))
         return actors
 
